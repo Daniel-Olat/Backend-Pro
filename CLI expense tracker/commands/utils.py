@@ -9,7 +9,7 @@ def read_expenses():
     return[]
   try:
     with open(EXPENSES , "r") as file:
-      json.load(file)
+      return json.load(file)
   except json.JSONDecodeError:
     print("Error: file has been corrupted")
     user_input = input("Do you want to delete the corrupted file?(yes/no)").lower()

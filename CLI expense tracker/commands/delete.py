@@ -13,4 +13,4 @@ def delete_expenses(expense_id):
   
   write_expenses(expenses)
   print(f"Expense with ID {expense_id} has been deleted succesfully")
-  
+  return

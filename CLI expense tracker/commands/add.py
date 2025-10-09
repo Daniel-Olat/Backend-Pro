@@ -2,7 +2,7 @@ from .utils import read_expenses , write_expenses
 from datetime import datetime 
 
 
-def add_expenses(amount , description):
+def add_expenses(amount , description ):
   if amount <= 0:
     print("Amount must be greater than zero!")
     return 
@@ -10,25 +10,24 @@ def add_expenses(amount , description):
   try:
     amount = float(amount)
     
-    if amount(round , 2) != amount:
-      raise ValueError(print("Amount must be at most two decimal places!")) 
+    
   except ValueError:
     print("Please Enter valid amount!")
     return 
   
   expenses = read_expenses()
-  
-  if len(expenses) == 0:
+  if expenses is None:
+    expenses = []
+  if not expenses:
     expense_id = 0
-  else :
-    expense_id = len(expenses) + 1
-    
+  else:
+    expense_id = expenses[-1]['id'] + 1
   expenses.append({
-    'id' : expense_id,
+    'id': expense_id,
     'amount': amount,
     'description': description,
     'date': datetime.now().isoformat()
   })
-  
   write_expenses(expenses)
   print(f"Expense of {amount} added successfully!")
+  return
