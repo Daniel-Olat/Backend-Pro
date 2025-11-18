@@ -12,7 +12,6 @@ def main_cli():
       for key, value in headers.items():
         print(f"{key}: {value}")
     else:
-      # Attempt to show JSON error body, otherwise fallback to text
       try:
         err = response.json()
       except Exception:
