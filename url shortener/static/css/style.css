@@ -1,0 +1,79 @@
+/* Primary color: black */
+:root{
+  --primary: #000000;
+  --bg: #f5f5f6;
+  --card: #ffffff;
+  --muted: #666666;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:#111;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+}
+
+.container{
+  width:100%;
+  max-width:640px;
+  background:var(--card);
+  padding:2rem;
+  border-radius:10px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.06);
+}
+
+h1{
+  margin:0 0 1rem 0;
+  font-size:1.5rem;
+  color:var(--primary);
+  text-align:center;
+}
+
+.shorten-form{
+  display:flex;
+  gap:0.5rem;
+  align-items:center;
+}
+
+input[type="url"]{
+  flex:1;
+  padding:0.75rem 1rem;
+  border-radius:8px;
+  border:1px solid #e6e6e6;
+  font-size:1rem;
+}
+
+.btn-primary{
+  padding:0.75rem 1rem;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.btn-primary:hover{opacity:0.95}
+
+.hint{
+  margin-top:0.75rem;
+  color:var(--muted);
+  font-size:0.95rem;
+  text-align:center;
+}
+
+/* Make sure any returned short URL (plain text) looks good */
+pre, code, p.short-url{
+  word-break:break-all;
+  background:#fafafa;
+  padding:0.75rem 1rem;
+  border-radius:6px;
+  border:1px solid #eee;
+  margin-top:1rem;
+}

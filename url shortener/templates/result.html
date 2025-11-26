@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shortened URL</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Shortened URL</h1>
+    <p class="hint">Your URL was shortened successfully.</p>
+
+    <div class="result-card">
+      <p class="short-url"><a href="{{ short_link }}" target="_blank">{{ short_link }}</a></p>
+      <p class="hint">Original: <a href="{{ long_url }}" target="_blank">{{ long_url }}</a></p>
+
+      <div style="display:flex;gap:.5rem;margin-top:1rem;justify-content:center;">
+        <button class="btn-primary" id="copyBtn">Copy Link</button>
+        <a class="btn-primary" href="{{ short_link }}" target="_blank" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Open</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn && copyBtn.addEventListener('click', () => {
+      const link = '{{ short_link }}';
+      navigator.clipboard.writeText(link).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy Link', 1500);
+      }).catch(() => {
+        copyBtn.textContent = 'Copy Failed';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Shortener</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>URL Shortener</h1>
+    <form action="{{ url_for('index')}}" method="POST" class="shorten-form">
+      <input type="url" name="long_url" placeholder="Enter URL to shorten" required>
+      <button type="submit" class="btn-primary">Shorten</button>
+    </form>
+    <p class="hint">Enter a URL and click <strong>Shorten</strong>. The shortened URL will be shown as plain text after submission.</p>
+  </div>
+</body>
+</html>
