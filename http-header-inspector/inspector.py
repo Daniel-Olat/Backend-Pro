@@ -1,9 +1,34 @@
 from flask import Flask, request, jsonify
 import requests
-
+import jwt, datetime
 app = Flask(__name__)
-
-
+SECRET_KEY  =  "secretkeysuper"
+USERS = {}
+@app.route("/register" , methods = ["POST"])
+def register():
+    data = request.json
+    username = data.get("username")
+    password = data.get("username")
+    
+    if username in USERS:
+        return jsonify({"Error": "User already exists"}), 400
+    USERS[username] = password
+    return jsonify({"Message": "User registered successfully"}), 201
+@app.route("/login" , methods = ['POST'])
+def login():
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+    
+    if username in USERS and USERS[username] == password:
+        token = jwt.encode(
+            {"user": username, "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+            SECRET_KEY,
+            algorithm="HS256"
+        )
+        return jsonify({"token": token})
+    else:
+        return jsonify({"Error": "Invalid credentials"}), 401
 @app.route('/inspect', methods=['GET'])
 def http_inspect_url():
     url = request.args.get('url')
