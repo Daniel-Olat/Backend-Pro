@@ -4,11 +4,30 @@ import jwt, datetime
 app = Flask(__name__)
 SECRET_KEY  =  "secretkeysuper"
 USERS = {}
+
+def verify_token():
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        return None
+    try:
+        parts = auth_header.split(" ")
+        if len(parts) != 2 or parts[0].lower() != "bearer":
+            return None
+        token = parts[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
+    except Exception as e:
+        print(f"Token verification error: {e}")
+        return None
 @app.route("/register" , methods = ["POST"])
 def register():
     data = request.json
     username = data.get("username")
-    password = data.get("username")
+    password = data.get("password")
     
     if username in USERS:
         return jsonify({"Error": "User already exists"}), 400
@@ -31,16 +50,24 @@ def login():
         return jsonify({"Error": "Invalid credentials"}), 401
 @app.route('/inspect', methods=['GET'])
 def http_inspect_url():
-    url = request.args.get('url')
-    if not url:
-        return jsonify({"Error": "Please provide a valid url"}), 400  # To handle bad requests
-
     try:
-        response = requests.get(url)
-        headers = dict(response.headers)
-        return jsonify(headers)
+        payload = verify_token()
+        if not payload:
+            return jsonify({"Error": "Unauthorized. Please login first."}), 401
+        
+        url = request.args.get('url')
+        if not url:
+            return jsonify({"Error": "Please provide a valid url"}), 400
+
+        try:
+            response = requests.get(url)
+            headers = dict(response.headers)
+            return jsonify(headers)
+        except Exception as e:
+            return jsonify({"Error": str(e)}), 500
     except Exception as e:
-        return jsonify({"Error": str(e)}), 500  # To Handle server error.
+        print(f"Inspect endpoint error: {e}")
+        return jsonify({"Error": "Internal server error"}), 500
 @app.route('/')
 def health():
     return jsonify({"status": "ok"})
