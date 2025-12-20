@@ -3,7 +3,17 @@ from flask import render_template
 
 # view functions
 @app.route('/')
-@app.route('/index')
+@app.route('/home')
 def index():
     user = {'username': 'Daniel'}
-    return render_template('index.html', title='Home', user=user)
+    posts = [
+        {
+            'author': {'username': 'John'},
+            'body': 'Beautiful day in Portland!'
+        },
+        {
+            'author': {'username': 'Susan'},
+            'body': 'The Avengers movie was so cool!'
+        }
+    ] # Mock object for a system of users 
+    return render_template('home.html', title='Home', user=user , posts=posts)
